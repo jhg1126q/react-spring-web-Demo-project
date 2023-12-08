@@ -15,6 +15,10 @@ const CommmonUtil = () => {
   const getTestParam = () => {
     return testParam;
   };
+
+  const showModal = () => {
+    console.log("모달창이 등장합니다");
+  };
 };
 
 export default CommmonUtil;

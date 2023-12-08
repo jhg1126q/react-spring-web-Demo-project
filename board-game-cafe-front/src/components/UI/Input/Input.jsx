@@ -10,6 +10,8 @@ const Input = (props) => {
       value={props.value}
       disabled={props.disabled}
       type={props.type}
+      onClick={props.onClick}
+      onChange={props.onChange}
     />
   );
 };

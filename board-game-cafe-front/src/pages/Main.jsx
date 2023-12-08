@@ -2,6 +2,8 @@ import React, { Fragment, useState } from "react";
 import testLogo from "../assets/godot-logo.svg";
 import Button from "../components/UI/Button/SimpleButton";
 import Card from "../components/Card/Card";
+import classes from "./Main.module.css";
+import Modal from "../components/Modal/Modal";
 
 const Main = () => {
   const title = "Test Front Page";
@@ -16,8 +18,26 @@ const Main = () => {
     setIsFree(!isFree);
   };
 
+  const testAPI = () => {
+    return new Promise((resolve, reject) => {
+      // API 통신 예시
+      setTimeout(() => {
+        resolve();
+      }, 500);
+    });
+  };
+
+  const onModalClickHandler = () => {
+    console.log("모달 클릭");
+    testAPI().then(() => {
+      console.log("test end");
+    });
+    console.log("모달 이벤트 사라짐!");
+  };
+
   return (
     <Fragment>
+      <Modal onConfirm={onModalClickHandler}></Modal>
       <div>
         <a href="#" target="_blank">
           <img src={testLogo} className="logo react" alt="Test logo" />
@@ -37,8 +57,7 @@ const Main = () => {
             </Button>
           </li>
         </ul>
-
-        <p>{content}</p>
+        <p className={classes.main}>{content}</p>
       </Card>
       <p className="read-the-docs">{document}</p>
     </Fragment>
