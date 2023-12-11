@@ -19,10 +19,9 @@ const ModalBackDrop = (props) => {
   // 혹시 모를 이벤트 버블링 막기
   const onClick = (event) => {
     event.stopPropagation();
-    if (props.onClick) {
+    if ((props.isBackDropAvail ?? false) && props.onClick) {
       props.onClick();
     }
-    console.log("backdrop touched!");
     return;
   };
 
@@ -57,7 +56,6 @@ const Modal = (props) => {
 
   // 닫기 버튼 클릭시 호출되는 기능
   const onCloseHandler = async () => {
-    console.log("test close event");
     if (props.onClose) {
       await props.onClose();
     }
@@ -67,7 +65,10 @@ const Modal = (props) => {
   return (
     <React.Fragment>
       {ReactDOM.createPortal(
-        <ModalBackDrop onClick={true && props.onConfirm} />,
+        <ModalBackDrop
+          isBackDropAvail={props.active}
+          onClick={true && props.onConfirm}
+        />,
         document.getElementById("overlay-container")
       )}
       {ReactDOM.createPortal(

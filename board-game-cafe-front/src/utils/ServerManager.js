@@ -16,10 +16,11 @@ ServerManager.getBaseUrl = () => {
   return BASE_URL;
 };
 
-ServerManager.testApi = async (
-  { apiAddress, method } = requestParam,
-  callback
-) => {
+ServerManager.callApi = async ({
+  apiAddress,
+  method,
+  callback,
+} = requestParam) => {
   // 로딩바 올리기
   console.log("로딩바 올리기");
 
