@@ -1,40 +1,80 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "../UI/Button/SimpleButton";
 import classes from "./Modal.module.css";
 import Card from "../Card/Card";
+import ReactDOM from "react-dom";
+
+/*
+Modal 만들어야할 종류
+
+Confirm 모달(예, 아니오)
+Alert 모달(닫기)
+Info 모달 (확인)
+스크롤 모달
+연속 모달
+
+*/
+
+const ModalBackDrop = (props) => {
+  // 혹시 모를 이벤트 버블링 막기
+  const onClick = (event) => {
+    event.stopPropagation();
+    if (props.onClick) {
+      props.onClick();
+    }
+    console.log("backdrop touched!");
+    return;
+  };
+
+  return <div className={classes.backdrop} onClick={onClick}></div>;
+};
+
+const ModalOverlay = (props) => {
+  const title = props.title ?? "모달 팝업 제목";
+  const btnTxt = props.btnTxt ?? "닫기";
+
+  return (
+    <Card className={classes.modal}>
+      <header className={classes.header}>
+        <h2>{title}</h2>
+      </header>
+      <div className={classes.content}>{props.children}</div>
+      <footer className={classes.actions}>
+        <Button onClick={props.onConfirm}>{btnTxt}</Button>
+      </footer>
+    </Card>
+  );
+};
 
 const Modal = (props) => {
-  const [showModal, setShowModal] = useState(true);
-
+  // 확인 버튼 클릭시 호출되는 기능
   const onClickHandler = async () => {
     if (props.onConfirm) {
       await props.onConfirm();
     }
-    // 여기에 팝업 사라지는 로직이 들어갈수 있다면 정말 좋겠다
     onCloseHandler();
   };
 
-  const onCloseHandler = () => {
-    setShowModal(false);
+  // 닫기 버튼 클릭시 호출되는 기능
+  const onCloseHandler = async () => {
+    console.log("test close event");
+    if (props.onClose) {
+      await props.onClose();
+    }
   };
 
+  // 여기까지는 jsx 처리가 가능합니다.
   return (
     <React.Fragment>
-      {showModal && (
-        <>
-          <div className={classes.backdrop}></div>
-          <Card className={classes.modal}>
-            <header className={classes.header}>
-              <h2>제목</h2>
-            </header>
-            <div className={classes.content}>
-              <p>모달창입니다</p>
-            </div>
-            <footer className={classes.actions}>
-              <Button onClick={onClickHandler}>버튼</Button>
-            </footer>
-          </Card>
-        </>
+      {ReactDOM.createPortal(
+        <ModalBackDrop onClick={true && props.onConfirm} />,
+        document.getElementById("overlay-container")
+      )}
+      {ReactDOM.createPortal(
+        <ModalOverlay title={props.title} onConfirm={onClickHandler}>
+          {props.children}
+        </ModalOverlay>,
+        document.getElementById("overlay-container")
       )}
     </React.Fragment>
   );
