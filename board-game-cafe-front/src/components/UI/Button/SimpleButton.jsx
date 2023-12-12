@@ -8,7 +8,13 @@ import classes from "./SimpleButton.module.css";
 const Button = (props) => {
   const onClickHandler = (event) => {
     event.preventDefault();
-    props.onClick();
+    if (props.onClick) {
+      props.onClick();
+    }
+
+    if (props.onSubmit) {
+      props.onSubmit();
+    }
   };
 
   const btnClass = `${classes.button} ${props.className}`;

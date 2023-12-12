@@ -7,7 +7,7 @@
  Latest-Update-Date: 2023-12-11 bmJckCFsQ771x
  Latest-Update-Log: 주석 처리 및 통신함수 제외, 모달 함수 생성 했습니다.
 -------------------------------------------------------*/
-const CommmonUtil = {};
+const CommmonUtil = {}; // Object.assign();
 
 /*-----------------
 CommonUtils Params
@@ -44,6 +44,26 @@ CommmonUtil.showLoading = (isShow) => {
     return;
   }
   console.log("로딩 화면을 비활성화 합니다");
+};
+
+CommmonUtil.isEmpty = (data) => {
+  if (data ?? true) {
+    return true;
+  }
+
+  if (data.trim().length === 0) {
+    return true;
+  }
+
+  if (Array.isArray(data) && data.length === 0) {
+    return true;
+  }
+
+  if (data.constructor === Object && Object.keys(data).length === 0) {
+    return true;
+  }
+
+  return false;
 };
 
 export default CommmonUtil;

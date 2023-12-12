@@ -1,7 +1,8 @@
 import React from "react";
-import classes from "Input.module.css";
+import classes from "./Input.module.css";
 
 const Input = (props) => {
+  // re-rendering 시 클래스 적용 가능
   const classNames = `${classes.input} ${props.className}`;
 
   return (
@@ -12,6 +13,7 @@ const Input = (props) => {
       type={props.type}
       onClick={props.onClick}
       onChange={props.onChange}
+      placeholder={props.placeholder}
     />
   );
 };

@@ -12,76 +12,61 @@ import axios from "axios";
 const ServerManager = {};
 
 ServerManager.getBaseUrl = () => {
-  const BASE_URL = "https://swapi.dev/api/";
+  const BASE_URL = "https://react-http-c86ef-default-rtdb.firebaseio.com/";
   return BASE_URL;
 };
 
 ServerManager.callApi = async ({
   apiAddress,
-  method,
+  method = "get",
   callback,
+  requestData = {},
 } = requestParam) => {
   // 로딩바 올리기
-  console.log("로딩바 올리기");
 
   let data = { api: String(apiAddress) };
 
+  if (!(apiAddress ?? false)) {
+    // 에러 메세지 출력 되어야 합니다
+    return;
+  }
+
   // 테스트 api 서두 넣기
-  const response = new Promise((resolve, reject) => {
+  const sendRequest = new Promise((resolve, reject) => {
     axios({
       url: apiAddress,
       method: method,
       baseURL: ServerManager.getBaseUrl(),
-      transformRequest: [
-        function (data) {
-          // 데이터를 변환하려는 작업 수행
-          return data;
-        },
-      ],
-
-      // `transformResponse`는 응답 데이터가 then/catch로 전달되기 전에 변경할 수 있게 해줍니다.
-      transformResponse: [
-        function (data) {
-          // 데이터를 변환하려는 작업 수행
-          return data;
-        },
-      ],
-
-      // `params`은 요청과 함께 전송되는 URL 파라미터입니다.
-      // 반드시 일반 객체나 URLSearchParams 객체여야 합니다.
-      // 참고: null이나 undefined는 URL에 렌더링되지 않습니다.
       params: {},
-      data: {},
+      data: JSON.stringify(requestData),
       timeout: 10000, // 기본값은 `0` (타임아웃 없음)
-      withCredentials: false, // 기본값
-
-      responseType: "json", // 기본값
-      responseEncoding: "utf8", // 기본값
-
+      headers: {
+        "Content-Type": "application/json",
+      },
       maxContentLength: 2000,
       maxBodyLength: 2000,
     })
       .then((response) => {
         data.type = "success";
         data.status = response.status;
-        data.dataSet = JSON.parse(response.data);
+        data.dataSet = response.data;
         resolve(data);
       })
       .catch((error) => {
-        data.type = "success";
+        data.type = "error";
         data.status = error.status;
         data.dataSet = error;
         reject(data);
       })
       .finally(() => {
         // 로딩바 사라짐
-        console.log("로딩바 삭제");
       });
   });
 
-  await response.then((value) => {
-    callback(value);
-    return;
+  await sendRequest.then((value) => {
+    if (callback) {
+      callback(value);
+    }
   });
 };
 
