@@ -1,13 +1,9 @@
 import "./App.css";
-import Main from "./pages/Main";
+import { RouterProvider } from "react-router-dom";
+import router from "./router/router";
 
 function App() {
-  // 후에 redux로 감쌀 예정
-  return (
-    <>
-      <Main />
-    </>
-  );
+  return <RouterProvider router={router}></RouterProvider>;
 }
 
 export default App;

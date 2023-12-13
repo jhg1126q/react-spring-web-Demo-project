@@ -47,7 +47,8 @@ CommmonUtil.showLoading = (isShow) => {
 };
 
 CommmonUtil.isEmpty = (data) => {
-  if (data ?? true) {
+  // 빈 값들어오면 false
+  if (!(data ?? false)) {
     return true;
   }
 
