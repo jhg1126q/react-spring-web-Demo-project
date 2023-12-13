@@ -12,6 +12,7 @@ import AddUser from "../pages/User/AddUser";
 // 태그가 element에 들어가 있어 jsx로 반환해주어야지 인식 가능
 // children path에 '/'이 앞에 붙어있다면 절대 경로
 // 여기에서 <Main/> 은 래핑 컴포넌트 입니다
+// index : true 기능 찾기
 const router = createBrowserRouter([
   {
     path: "/",

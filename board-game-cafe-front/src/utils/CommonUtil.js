@@ -28,14 +28,23 @@ CommmonUtil.showModal = (title, content, callback) => {
   // callback : 콜백함수
 
   console.log("모달창이 등장합니다");
+  console.log("제목 : " + title);
+  console.log("내용 : " + content);
+  if (callback) {
+    console.log("callback 함수 존재합니다");
+  }
 };
 
 CommmonUtil.showAlert = () => {
   console.log("경고창입니다");
 };
 
-CommmonUtil.showBackDrop = () => {
-  console.log("백드롭 화면을 활성화 합니다");
+CommmonUtil.showBackDrop = (isShow) => {
+  if (isShow) {
+    console.log("백드롭 화면을 활성화 합니다");
+    return;
+  }
+  console.log("백드롭 화면을 비활성화 합니다");
 };
 
 CommmonUtil.showLoading = (isShow) => {

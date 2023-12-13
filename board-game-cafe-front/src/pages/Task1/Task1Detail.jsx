@@ -2,6 +2,7 @@ import React from "react";
 import { useParams, Link } from "react-router-dom";
 
 const Task1Detail = () => {
+  // useParams에서는 Link 에서 ':' 데이터에 맵핑되어서 넘어온 것들이 담겨져있다.
   const taskNumber = useParams();
 
   // 절대 경로일 경우에는 상관없습니다. 상대경로일 때만 주의
