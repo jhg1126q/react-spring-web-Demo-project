@@ -1,0 +1,25 @@
+footer {
+  background-color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer textarea {
+  flex-grow: 2;
+  margin: 0 10px;
+  resize: none;
+  border: none;
+  padding-top: 5px;
+  height: 20px;
+}
+
+footer textarea:focus {
+  outline: none;
+}
+
+footer i {
+  color: #c0c0c0;
+  cursor: pointer;
+  cursor: hand;
+}

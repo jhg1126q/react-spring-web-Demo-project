@@ -1,15 +1,16 @@
 import React from "react";
-import classes from "./Header.module.css";
+import classes from "./ChatHeader.module.css";
+import Avatar from "../../Avatar/Avatar";
+import { BiSolidSearch } from "react-icons/bi";
 
-const ChatHeader = () => {
+const ChatHeader = (props) => {
   return (
     <header>
-      <div class="avatar">
-        <img alt="avatar" src="https://goo.gl/oZRdgO" />
-        <div class="color"></div>
-      </div>
-      <div>CHAT</div>
-      <i class="material-icons">search</i>
+      <Avatar imgSrc={props.imgSrc} isBadge={true}></Avatar>
+      <div>{props.title}</div>
+      <i>
+        <BiSolidSearch />
+      </i>
     </header>
   );
 };

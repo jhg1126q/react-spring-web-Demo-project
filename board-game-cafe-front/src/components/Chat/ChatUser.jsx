@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./ChatUser.module.css";
+import Avatar from "../Avatar/Avatar";
 
 /*  Props 정리 
 userName : 해당 메세지 유저 이름
@@ -11,10 +12,11 @@ lastTime : 최신발송시간
 const ChatUser = (props) => {
   return (
     <>
-      <div className={classes.avatar}>
-        <img alt="avatar" src={props.imgSrc} />
-        <div className={classes.color}></div>
-      </div>
+      <Avatar
+        imgPosition={"left"}
+        imgSrc={props.imgSrc}
+        isBadge={true}
+      ></Avatar>
       <div className={classes.main_li}>
         <div className={classes.username}>{props.userName}</div>
         <div className={classes.text}>{props.lastTxt}</div>

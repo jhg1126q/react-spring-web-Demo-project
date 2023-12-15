@@ -1,4 +1,6 @@
 import React from "react";
+import classes from "./ChatFooter.module.css";
+import { BiSolidSend, BiSolidSave } from "react-icons/bi";
 
 const ChatFooter = (props) => {
   const onChangeTextHandler = (event) => {
@@ -21,14 +23,16 @@ const ChatFooter = (props) => {
 
   return (
     <footer>
-      <i className="material-icons">attach_file</i>
+      <i>
+        <BiSolidSave />
+      </i>
       <textarea
         onChange={onChangeTextHandler}
         placeholder="대화를 입력해 주세요"
         onKeyDown={onKeyDownHandler}
       ></textarea>
-      <i className="material-icons" onClick={onClickHandler}>
-        send
+      <i>
+        <BiSolidSend onClick={onClickHandler} />
       </i>
     </footer>
   );

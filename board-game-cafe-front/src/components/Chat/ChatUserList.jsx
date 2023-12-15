@@ -2,6 +2,7 @@ import React from "react";
 
 import classes from "./ChatUserList.module.css";
 import ChatUser from "./ChatUser";
+import ChatHeader from "../UI/Header/ChatHeader";
 
 /*  Props 정리 
 userName : 해당 메세지 유저 이름
@@ -13,13 +14,15 @@ lastTime : 최신발송시간
 const ChatUserList = (props) => {
   const DUMMY_USERLIST = [
     {
-      imgSrc: "https://goo.gl/1D6wCQ",
+      id: 1,
+      imgSrc: "https://avatarhosting.demolution.net/pics/49034/wolf3.jpg",
       userName: "Marina Braga",
       lastTxt: "Ok. Bye!",
       lastTime: "최근",
     },
     {
-      imgSrc: "https://goo.gl/xjYA9J",
+      id: 2,
+      imgSrc: "https://avatarhosting.demolution.net/pics/20330/DSC00063.jpg",
       userName: "Isah Cacique",
       lastTxt: "Party tonight, ok?",
       lastTime: "18:52",
@@ -28,17 +31,22 @@ const ChatUserList = (props) => {
 
   return (
     <aside>
-      <ChatHeader></ChatHeader>
+      <ChatHeader
+        imgSrc={
+          "https://avatarhosting.demolution.net/pics/50736/StoneStepkhkuj.jpg"
+        }
+        title={"채팅방"}
+      ></ChatHeader>
       <ul>
         {DUMMY_USERLIST.map((data) => {
           return (
-            <li>
+            <li key={data.id}>
               <ChatUser
                 imgSrc={data.imgSrc}
                 userName={data.userName}
                 lastTxt={data.lastTxt}
                 lastTime={data.lastTime}
-              ></ChatUser>
+              />
             </li>
           );
         })}
