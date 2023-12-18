@@ -3,10 +3,9 @@ import Main from "../pages/Main";
 import Error from "../pages/Error/Error";
 import Task1Router from "./Task1/task1Router";
 import Task2Router from "./Task2/task2Router";
+import UserRouter from "./User/userRouter";
 import Login from "../pages/Login/Login";
 import Join from "../pages/Login/Join";
-import UserList from "../pages/User/UserList";
-import AddUser from "../pages/User/AddUser";
 
 // 업무별 라우터 분리 및 병합
 // 태그가 element에 들어가 있어 jsx로 반환해주어야지 인식 가능
@@ -21,11 +20,10 @@ const router = createBrowserRouter([
     children: [
       ...Task1Router,
       ...Task2Router,
+      ...UserRouter,
       { index: true, element: <Login /> },
       { path: "login", element: <Login /> },
       { path: "join", element: <Join /> },
-      { path: "user", element: <UserList /> },
-      { path: "addUser", element: <AddUser /> },
     ],
   },
 ]);

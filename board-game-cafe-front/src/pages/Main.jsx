@@ -5,7 +5,6 @@ import Card from "../components/Card/Card";
 import Modal from "../components/Modal/Modal";
 import CommmonUtil from "../utils/CommonUtil";
 import Loading from "../components/Loading/Loading";
-import useHttp from "../hooks/use-http";
 
 import classes from "./Main.module.css";
 import Nav from "../components/UI/Nav/Nav";

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Card from "../../components/Card/Card";
 import ServerManager from "../../utils/ServerManager";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 
 const UserList = () => {
   const [userList, setUserList] = useState([]);
+
+  const events = useLoaderData();
+  const navigate = useNavigate();
 
   const callUserList = () => {
     let param = {};
@@ -36,8 +39,7 @@ const UserList = () => {
     setUserList([...result]);
   };
 
-  // 각 userList 클릭
-  const onClickUserList = (data) => {
+  const callDeleteUser = (data) => {
     let inputData = { id: data.id };
 
     let param = {};
@@ -49,9 +51,14 @@ const UserList = () => {
     ServerManager.callApi(param);
   };
 
+  // 각 userList 클릭
+  const onClickUserList = (data) => {
+    navigate(data.id);
+  };
+
   useEffect(() => {
-    callUserList();
-  });
+    showUserList(events.result);
+  }, []);
 
   return (
     <Card>
@@ -60,9 +67,7 @@ const UserList = () => {
           userList.map((data) => {
             return (
               <li key={data.id} onClick={() => onClickUserList(data)}>
-                <p>
-                  {data.userName + " / " + data.email + " / " + data.password}
-                </p>
+                <p>{data.userName}</p>
               </li>
             );
           })
@@ -78,3 +83,27 @@ const UserList = () => {
 };
 
 export default UserList;
+
+export async function loader() {
+  // 브라우저에서 발동함
+  // 리엑트 컴포넌트가 아닙니다.
+  // loader가 useLoaderData라는 훅에서 발동되기 때문에 훅중첩에 주의하셔야합니다(무한반복주의)
+  let result = {};
+
+  const loaderCallback = async (data) => {
+    result = await data;
+  };
+
+  const init_loader = async () => {
+    let param = {};
+    param.apiAddress = "/user.json";
+    param.method = "get";
+    param.callback = loaderCallback;
+
+    await ServerManager.callApi(param);
+  };
+
+  const call = await init_loader();
+
+  return { call, result };
+}

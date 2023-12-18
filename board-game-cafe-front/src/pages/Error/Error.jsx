@@ -1,26 +1,29 @@
 import React, { useEffect } from "react";
 import Nav from "../../components/UI/Nav/Nav";
-import { useNavigate } from "react-router-dom";
+import PageContent from "../../components/UI/Content/PageContent";
+import { useRouteError } from "react-router-dom";
 
 const ErrorPage = () => {
-  const movePage = () => {
-    setTimeout(() => {
-      useNavigate("/");
-    }, 5000);
-  };
+  const error = useRouteError();
+  let messege = "";
 
-  useEffect(() => {
-    // hook 내부에서 다른 hook를 발동 할수 없습니다 .
-    // custom 후크가 필요합니다
-    // movePage();
-  }, []);
+  if (error.status === "ERR_NETWORK") {
+    messege += "AXIOS ERR PAGE";
+  } else if (error.status === "404") {
+    messege += "404";
+  } else {
+    messege += "해당되는 에러 코드가 없습니다 ::: ";
+    messege += error.status;
+  }
 
   return (
     <>
       <Nav></Nav>
       <main>
-        <h1>에러 페이지</h1>
-        <p>페이지를 찾을수 없습니다.</p>
+        <PageContent title="에러 페이지">
+          <p>{error.status}</p>
+          <p>{messege}</p>
+        </PageContent>
       </main>
     </>
   );

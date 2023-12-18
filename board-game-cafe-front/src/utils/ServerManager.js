@@ -4,10 +4,11 @@
  Author: bmJckCFsQ771x
  Create-Date: 2023-12-11
  
- Latest-Update-Date: 2023-12-11 bmJckCFsQ771x
- Latest-Update-Log: 생성했어요
+ Latest-Update-Date: 2023-12-18 bmJckCFsQ771x
+ Latest-Update-Log: callApi 관련 업데이트
 -------------------------------------------------------*/
 import axios from "axios";
+import messege from "../properties/messege";
 
 const ServerManager = {};
 
@@ -16,6 +17,13 @@ ServerManager.getBaseUrl = () => {
   return BASE_URL;
 };
 
+/*********************************
+  title   : callApi
+  params  : requestParam
+  return  : callback(data)
+  author  : bmJckCFsQ771x
+  date    : 2023-12-18 
+**********************************/
 ServerManager.callApi = async ({
   apiAddress,
   method = "get",
@@ -54,8 +62,10 @@ ServerManager.callApi = async ({
       })
       .catch((error) => {
         data.type = "error";
-        data.status = error.status;
+        data.status = error.code;
         data.dataSet = error;
+        // 혹시나 해서 화면단에서 공통 메세지가 있다면 표기하고 싶다
+        data.messege = messege[error.status];
         reject(data);
       })
       .finally(() => {
@@ -68,6 +78,13 @@ ServerManager.callApi = async ({
       callback(value);
     }
   });
+};
+
+/*
+과연 쓸일이 있을지 모르겠다.
+*/
+ServerManager.defaultCallback = async (data) => {
+  return data;
 };
 
 export default ServerManager;
