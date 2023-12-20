@@ -1,21 +1,32 @@
 import React from "react";
 import classes from "./SimpleButton.module.css";
 
+/* Props
+ type : 버튼 타입
+ disabled : 비활성화 여부
+*/
 const Button = (props) => {
   const onClickHandler = (event) => {
     event.preventDefault();
-    console.log("click!");
-    props.onClick();
+    if (props.onClick) {
+      props.onClick();
+    }
+
+    if (props.onSubmit) {
+      props.onSubmit();
+    }
   };
-  const btnClass = "";
+
+  const btnClass = `${classes.button} ${props.className}`;
 
   return (
     <button
-      className={classes.button}
+      className={btnClass}
       onClick={onClickHandler}
-      disabled={props.disabled}
+      disabled={props.disabled || false}
+      type={props.type || "button"}
     >
-      {props.btnText}
+      {props.children}
     </button>
   );
 };

@@ -1,0 +1,96 @@
+.container {
+  width: 80%;
+  height: 80%;
+  display: flex;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  min-width: 600px;
+}
+
+.color {
+  background-color: #4ad99b;
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+  position: relative;
+  top: -16px;
+  right: -32px;
+  border: 2px solid #343e48;
+}
+
+.away {
+  background-color: #fa676a;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#main footer {
+  background-color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#main footer textarea {
+  flex-grow: 2;
+  margin: 0 10px;
+  resize: none;
+  border: none;
+  padding-top: 5px;
+  height: 20px;
+}
+
+#main footer textarea:focus {
+  outline: none;
+}
+
+#main footer i {
+  color: #c0c0c0;
+  cursor: pointer;
+  cursor: hand;
+}
+
+#messages {
+  overflow: auto;
+  flex-grow: 2;
+  padding: 10px;
+}
+
+#messages article {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+#messages article .avatar {
+  margin-right: 10px;
+}
+
+#messages .right .avatar {
+  margin-right: 0;
+}
+
+#credits {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+#credits img {
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+}
+
+#credits span {
+  display: block;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  user-select: none;
+}
