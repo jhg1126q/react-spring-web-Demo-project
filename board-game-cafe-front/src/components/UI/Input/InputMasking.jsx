@@ -45,9 +45,7 @@ const InputMasking = (props) => {
   const onChangeHandler = (event) => {};
 
   const onInputHandler = (event) => {
-    let test = ("" + (event.target.value ?? ""))
-      .replace(/\*/gi, "")
-      .replace(/[^a-z0-9]/gi, "");
+    let test = ("" + (event.target.value ?? "")).replace(/[^a-z0-9]/gi, "");
 
     dispatchInputValue({
       type: "MASK",
