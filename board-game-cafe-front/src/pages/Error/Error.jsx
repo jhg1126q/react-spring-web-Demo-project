@@ -16,6 +16,9 @@ const ErrorPage = () => {
     messege += error.status;
   }
 
+  console.log("Error messege :::: ");
+  console.log(error.messege);
+
   return (
     <>
       <Nav></Nav>

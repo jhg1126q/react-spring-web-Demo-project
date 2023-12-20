@@ -8,12 +8,14 @@ import Loading from "../components/Loading/Loading";
 
 import classes from "./Main.module.css";
 import Nav from "../components/UI/Nav/Nav";
+import InputMasking from "../components/UI/Input/InputMasking";
 
 const Main = () => {
   const title = "Main Page";
 
   const [isModalCall, setIsModalCall] = useState(false);
   const [isLoadingShow, setIsLoadingShow] = useState(false);
+  const [textMask, setTesxtMask] = useState("");
 
   // 팝업 닫기 이벤트
   const onModalClickHandler = () => {
@@ -26,6 +28,11 @@ const Main = () => {
     CommmonUtil.showModal("페이지 ID", "콜");
 
     setIsModalCall(!isModalCall);
+  };
+
+  const onChangeHandler = (data) => {
+    console.log(data);
+    return;
   };
 
   // Outlet 이 나오는 경로입니다.
@@ -47,6 +54,9 @@ const Main = () => {
         <ul>
           <li>
             <Button onClick={onModalCallClickHandler}>모달창</Button>
+          </li>
+          <li>
+            <InputMasking onChange={onChangeHandler}></InputMasking>
           </li>
         </ul>
         <p className={classes.main}></p>
