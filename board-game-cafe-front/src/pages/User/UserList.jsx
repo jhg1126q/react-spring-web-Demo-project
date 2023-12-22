@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "../../components/Card/Card";
 import ServerManager from "../../utils/ServerManager";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const UserList = () => {
   const [userList, setUserList] = useState([]);
@@ -96,10 +97,10 @@ export async function loader() {
 
   const init_loader = async () => {
     let param = {};
+
     param.apiAddress = "/user.json";
     param.method = "get";
     param.callback = loaderCallback;
-
     await ServerManager.callApi(param);
   };
 

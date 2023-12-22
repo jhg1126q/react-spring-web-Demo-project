@@ -9,7 +9,8 @@
 -------------------------------------------------------*/
 import axios from "axios";
 import messege from "../properties/messege";
-import { counterActions } from "../redux/use-loading";
+import { loadingAction } from "../store/redux/loading-slice";
+import { useDispatch } from "react-redux";
 
 const ServerManager = {};
 
@@ -32,8 +33,14 @@ ServerManager.callApi = async ({
   requestData = {},
 } = requestParam) => {
   // 로딩바 올리기
+  // loading show의 인자값은 action.payload 라는 값으로 넘어가게됩니다
+  // custom hook 를 사용해야 호출할수 있을것같습니다
+  // const dispatchStore = useDispatch();
+  // dispatchStore(loadingAction.toggle());
 
-  let data = { api: String(apiAddress) };
+  // -------------------------------------------------------------------------
+
+  const data = { api: String(apiAddress) };
 
   if (!(apiAddress ?? false)) {
     // 에러 메세지 출력 되어야 합니다
@@ -71,6 +78,8 @@ ServerManager.callApi = async ({
       })
       .finally(() => {
         // 로딩바 사라짐
+        // loadingAction.show(false);
+        //  dispatchStore(loadingAction.toggle());
       });
   });
 
