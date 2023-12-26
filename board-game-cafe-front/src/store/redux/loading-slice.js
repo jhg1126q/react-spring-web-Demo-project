@@ -6,7 +6,7 @@ const loadingSlice = createSlice({
   name: "loadingStore",
   initialState,
   reducers: {
-    show(state) {
+    show(state, action) {
       if (action.payload) {
         state.show = true;
       } else {

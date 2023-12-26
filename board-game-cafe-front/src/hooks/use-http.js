@@ -1,47 +1,46 @@
 // hooks는 무조건 use로 시작되어야합니다
-
-import { useState } from "react";
+import { loadingAction } from "../store/redux/loading-slice";
+import { modalAction } from "../store/redux/modal-slice";
+import { useDispatch } from "react-redux";
 import ServerManager from "../utils/ServerManager";
 
-const useHttp = ({
-  apiAddress,
-  method = "get",
-  callback,
-  requestData = {},
-} = requestParam) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const BASE_URL = "https://react-http-c86ef-default-rtdb.firebaseio.com/";
+// 로딩바와 에러메시지 출현을 위하여 useState hook을 사용하기에
+// 커스텀 후크를 만들어서 진행합니다
+const useHttp = () => {
+  const dispatchStore = useDispatch();
 
-  const sendRequest = async () => {
-    // 로딩바 올리기
-    setIsLoading(true);
-
-    let data = { api: String(apiAddress) };
+  const callApi = async ({
+    apiAddress,
+    method = "get",
+    callback,
+    requestData = {},
+    isLoadingActive = false,
+  }) => {
+    if (isLoadingActive) dispatchStore(loadingAction.show(true));
 
     if (!(apiAddress ?? false)) {
       // 에러 메세지 출력 되어야 합니다
-      setError(true);
-      return;
+      dispatchStore(modalAction.show(true));
+      dispatchStore(loadingAction.show(false));
+
+      return {
+        status: "fail",
+      };
     }
 
-    // 로딩바, 모달창 준비
-    setIsLoading(true);
-    setError(null);
-
-    const param = {};
-    param.apiAddress = "/user.json";
-    param.method = "get";
-    param.callback = callBackTest;
-
-    await ServerManager.callApi(param);
+    const result = await ServerManager.callApi({
+      apiAddress,
+      method,
+      callback,
+      requestData,
+    }).then((value) => {
+      dispatchStore(loadingAction.show(false));
+      return value;
+    });
+    return result;
   };
 
-  return {
-    isLoading,
-    error,
-    sendRequest,
-  };
+  return { callApi };
 };
 
 export default useHttp;

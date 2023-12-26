@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import Card from "../../components/Card/Card";
 import ServerManager from "../../utils/ServerManager";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import useHttp from "../../hooks/use-http";
 
 const UserList = () => {
   const [userList, setUserList] = useState([]);
+  const { callApi } = useHttp();
 
   const events = useLoaderData();
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const UserList = () => {
     param.method = "get";
     param.callback = showUserList;
 
-    ServerManager.callApi(param);
+    callApi(param);
   };
 
   // 유저 리스트 출력하는 함수
@@ -102,6 +103,7 @@ export async function loader() {
     param.method = "get";
     param.callback = loaderCallback;
     await ServerManager.callApi(param);
+    // await callApi(param);
   };
 
   const call = await init_loader();

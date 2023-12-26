@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Card from "../../components/Card/Card";
 import Button from "../../components/UI/Button/SimpleButton";
 import InputMasking from "../../components/UI/Input/InputMasking";
-import { SkeletonProfile } from "../../components/UI/Skeleton/Skeleton";
 import TestClassExample from "./TestClassExample";
 import { useDispatch } from "react-redux";
 import { loadingAction } from "../../store/redux/loading-slice";
@@ -10,10 +9,12 @@ import { modalAction } from "../../store/redux/modal-slice";
 
 import CommmonUtil from "../../utils/CommonUtil";
 import classes from "../Main.module.css";
+import useHttp from "../../hooks/use-http";
 
 const Test = () => {
   const [textMask, setTesxtMask] = useState("");
   const dispatchStore = useDispatch();
+  const { callApi } = useHttp();
 
   // 팝업 버튼 클릭
   const onModalCallClickHandler = () => {
@@ -29,52 +30,42 @@ const Test = () => {
   };
 
   const onLoadingClick = (event) => {
-    dispatchStore(loadingAction.toggle());
-    setTimeout(() => {
-      dispatchStore(loadingAction.toggle());
-    }, 2000);
+    const result = callApi({ apiAddress: "/user.json", method: "get" });
+    console.log(result);
   };
+
+  function* counterTest(array) {
+    // return은 done 상태를 만든다.
+    if (!array) {
+      return 0;
+    }
+
+    // 이 상태에서 매달려 있다
+    for (let item of array) {
+      yield item;
+    }
+
+    // 마지막에는 return을 넣거나
+    // 안한다면 0가 되어버린다
+    return 0;
+  }
 
   const onFnTestClick = (event) => {
-    // TODO ::: redux saga 로 제어해야합니다
-    console.log("test");
-    let data = {
-      r1: "r1",
-      r2: "r2",
-      r3: "r3",
-      r4: "r4",
-      r5: "r5",
-    };
-    let fnCall = yieldTestFunction(data);
+    // TODO ::: redux saga 로 제어하는거 해보아야함
+    let ddd = [1, 2, 3, 4, 5];
+    const sss = counterTest(ddd);
+    ddd.forEach((elem) => {
+      console.log("counter ::: ", sss.next());
+      console.log("elem ::: ", elem);
+    });
 
-    console.log("1차 :::: ", fnCall.next().value);
-    console.log("2차 :::: ", fnCall.next().value);
-    // done 이 true 로 나옵니다
-    console.log("3차 :::: ", fnCall.next().value);
+    console.log("last ::: ", sss.next());
   };
-
-  function* yieldTestFunction(data) {
-    console.log("yield 1" + data.r1);
-    console.log("yield 2" + data.r2);
-    // yield 1차
-    yield data.r1 + data.r2;
-
-    console.log("yield 3" + data.r3);
-    // yield 2차
-    yield data.r3;
-
-    console.log("yield 4" + data.r4);
-
-    console.log("yield 5" + data.r5);
-  }
 
   return (
     <>
       <Card>
         <ul>
-          <li>
-            <Button onClick={onModalCallClickHandler}>모달창</Button>
-          </li>
           <li>
             <InputMasking onChange={onChangeHandler}></InputMasking>
           </li>

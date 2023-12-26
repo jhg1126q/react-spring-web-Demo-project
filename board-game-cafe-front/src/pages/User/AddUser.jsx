@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import Input from "../../components/UI/Input/Input";
 import Card from "../../components/Card/Card";
 import Button from "../../components/UI/Button/SimpleButton";
-import ServerManager from "../../utils/ServerManager";
 import Commonutil from "../../utils/CommonUtil";
 import { Link } from "react-router-dom";
 import { SkeletonProfile } from "../../components/UI/Skeleton/Skeleton";
+import useHttp from "../../hooks/use-http";
 
 const AddUser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const { callApi } = useHttp();
 
   const onChangeUserName = (event) => {
     setUserName(event.target.value);
@@ -42,7 +43,7 @@ const AddUser = () => {
     return true;
   };
 
-  const onSubmitClickHandler = () => {
+  const onSubmitClickHandler = async () => {
     if (!validAddUserData()) {
       return;
     }
@@ -58,14 +59,14 @@ const AddUser = () => {
     param.requestData = data;
     param.method = "post";
     param.callback = onSubmitAfterHandler;
+    param.isLoadingActive = true;
 
     setIsLoading(true);
-
-    ServerManager.callApi(param);
+    callApi(param);
   };
 
   const onSubmitAfterHandler = () => {
-    // 등록되었습니다 모달 창 뜨면 좋겠다
+    // 등록되었습니다
     setIsLoading(false);
     console.log("제출 완료");
     setUserEmail("");

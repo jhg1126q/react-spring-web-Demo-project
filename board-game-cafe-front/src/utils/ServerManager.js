@@ -9,8 +9,6 @@
 -------------------------------------------------------*/
 import axios from "axios";
 import messege from "../properties/messege";
-import { loadingAction } from "../store/redux/loading-slice";
-import { useDispatch } from "react-redux";
 
 const ServerManager = {};
 
@@ -32,20 +30,7 @@ ServerManager.callApi = async ({
   callback,
   requestData = {},
 } = requestParam) => {
-  // 로딩바 올리기
-  // loading show의 인자값은 action.payload 라는 값으로 넘어가게됩니다
-  // custom hook 를 사용해야 호출할수 있을것같습니다
-  // const dispatchStore = useDispatch();
-  // dispatchStore(loadingAction.toggle());
-
-  // -------------------------------------------------------------------------
-
   const data = { api: String(apiAddress) };
-
-  if (!(apiAddress ?? false)) {
-    // 에러 메세지 출력 되어야 합니다
-    return;
-  }
 
   // 테스트 api 서두 넣기
   const sendRequest = new Promise((resolve, reject) => {
@@ -72,21 +57,21 @@ ServerManager.callApi = async ({
         data.type = "error";
         data.status = error.code;
         data.dataSet = error;
-        // 혹시나 해서 화면단에서 공통 메세지가 있다면 표기하고 싶다
+        // 공통 메세지 출력
         data.messege = messege[error.status];
         reject(data);
       })
       .finally(() => {
-        // 로딩바 사라짐
-        // loadingAction.show(false);
-        //  dispatchStore(loadingAction.toggle());
+        // 필수 후 처리가 필요하면 여기서
       });
   });
 
-  await sendRequest.then((value) => {
+  return await sendRequest.then((value) => {
     if (callback) {
       callback(value);
     }
+
+    return value;
   });
 };
 
