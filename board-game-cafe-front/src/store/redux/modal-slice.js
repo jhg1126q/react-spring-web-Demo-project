@@ -1,20 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { show: false };
+const initialState = { show: false, message: "" };
 
 const modalSlice = createSlice({
   name: "modalStore",
   initialState,
   reducers: {
     show(state, action) {
-      if (action.payload) {
-        state.show = true;
-      } else {
+      if (String(action.payload.message).length < 1) {
+        console.log("ssss");
         state.show = false;
+        state.message = "";
+      } else {
+        if (action.payload.show) {
+          state.show = true;
+          state.message = action.payload.message;
+        } else {
+          state.show = false;
+          state.message = "";
+        }
       }
-    },
-    toggle(state) {
-      state.show = !state.show;
     },
   },
 });

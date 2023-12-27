@@ -4,7 +4,6 @@ import Card from "../../components/Card/Card";
 import Button from "../../components/UI/Button/SimpleButton";
 import Commonutil from "../../utils/CommonUtil";
 import { Link } from "react-router-dom";
-import { SkeletonProfile } from "../../components/UI/Skeleton/Skeleton";
 import useHttp from "../../hooks/use-http";
 
 const AddUser = () => {
@@ -55,20 +54,21 @@ const AddUser = () => {
     };
 
     let param = {};
-    param.apiAddress = "/user.json";
+    param.apiAddress = "/user";
     param.requestData = data;
-    param.method = "post";
+    param.method = "get";
     param.callback = onSubmitAfterHandler;
-    param.isLoadingActive = true;
+    // 로딩창 제어변수
+    // param.isLoadingActive = false;
 
-    setIsLoading(true);
+    // 유저 UI
+    // setIsLoading(true);
     callApi(param);
   };
 
   const onSubmitAfterHandler = () => {
     // 등록되었습니다
-    setIsLoading(false);
-    console.log("제출 완료");
+    // setIsLoading(false);
     setUserEmail("");
     setUserName("");
     setUserPassword("");
@@ -79,7 +79,7 @@ const AddUser = () => {
       <form>
         <ul>
           {isLoading ? (
-            <SkeletonProfile />
+            <p>등록중....</p>
           ) : (
             <>
               <li>

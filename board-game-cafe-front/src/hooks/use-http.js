@@ -14,7 +14,7 @@ const useHttp = () => {
     method = "get",
     callback,
     requestData = {},
-    isLoadingActive = false,
+    isLoadingActive = true,
   }) => {
     if (isLoadingActive) dispatchStore(loadingAction.show(true));
 

@@ -35,7 +35,7 @@ ServerManager.callApi = async ({
   // 테스트 api 서두 넣기
   const sendRequest = new Promise((resolve, reject) => {
     axios({
-      url: apiAddress,
+      url: String(apiAddress) + ".json",
       method: method,
       baseURL: ServerManager.getBaseUrl(),
       params: {},

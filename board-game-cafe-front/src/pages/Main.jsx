@@ -12,6 +12,7 @@ const Main = () => {
   // store 에 접근할 때 해당 store key 값으로 접근해야 합니다
   const isShow = useSelector((state) => state.loading.show);
   const isModal = useSelector((state) => state.modal.show);
+  const modalMsg = useSelector((state) => state.modal.message);
   const dispatchStore = useDispatch();
 
   // 팝업 닫기 이벤트
@@ -25,12 +26,8 @@ const Main = () => {
       <Nav></Nav>
       {isShow && <Loading />}
       {isModal && (
-        <Modal
-          title={"공통 모달"}
-          active={false}
-          onConfirm={onModalClickHandler}
-        >
-          <p>"안녕하세요 난 공통 모달창입니다"</p>
+        <Modal title={"알림"} active={false} onConfirm={onModalClickHandler}>
+          <p>{modalMsg}</p>
         </Modal>
       )}
       <h1>{title}</h1>
