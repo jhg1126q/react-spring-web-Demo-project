@@ -58,8 +58,7 @@ const UserList = () => {
   };
 
   const callDeleteUserCallback = (data) => {
-    console.log(data);
-    showAlert({ message: "삭제되었습니다." });
+    showAlert({ message: "삭제되었습니다.", callback: callUserList });
   };
 
   // 버튼 클릭

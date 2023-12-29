@@ -56,7 +56,7 @@ const AddUser = () => {
     let param = {};
     param.apiAddress = "/user";
     param.requestData = data;
-    param.method = "get";
+    param.method = "post";
     param.callback = onSubmitAfterHandler;
     // 로딩창 제어변수
     // param.isLoadingActive = false;

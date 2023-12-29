@@ -5,7 +5,12 @@ const useModal = () => {
   const dispatchStore = useDispatch();
 
   const showAlert = ({ message }) => {
-    dispatchStore(modalAction.show({ show: true, message }));
+    dispatchStore(
+      modalAction.show({
+        show: true,
+        message,
+      })
+    );
   };
 
   return { showAlert };
