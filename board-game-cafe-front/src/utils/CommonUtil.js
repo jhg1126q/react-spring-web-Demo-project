@@ -55,8 +55,10 @@ CommmonUtil.showLoading = (isShow) => {
   console.log("로딩 화면을 비활성화 합니다");
 };
 
+// 반값 감지
 CommmonUtil.isEmpty = (data) => {
-  // 빈 값들어오면 false
+  // 빈 값들어오면 true 리턴합니다.
+
   if (!(data ?? false)) {
     return true;
   }

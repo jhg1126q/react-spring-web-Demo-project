@@ -30,19 +30,12 @@ ServerManager.callApi = async ({
   callback,
   requestData = {},
 } = requestParam) => {
-  // 로딩바 올리기
-
-  let data = { api: String(apiAddress) };
-
-  if (!(apiAddress ?? false)) {
-    // 에러 메세지 출력 되어야 합니다
-    return;
-  }
+  const data = { api: String(apiAddress) };
 
   // 테스트 api 서두 넣기
   const sendRequest = new Promise((resolve, reject) => {
     axios({
-      url: apiAddress,
+      url: String(apiAddress) + ".json",
       method: method,
       baseURL: ServerManager.getBaseUrl(),
       params: {},
@@ -64,19 +57,21 @@ ServerManager.callApi = async ({
         data.type = "error";
         data.status = error.code;
         data.dataSet = error;
-        // 혹시나 해서 화면단에서 공통 메세지가 있다면 표기하고 싶다
+        // 공통 메세지 출력
         data.messege = messege[error.status];
         reject(data);
       })
       .finally(() => {
-        // 로딩바 사라짐
+        // 필수 후 처리가 필요하면 여기서
       });
   });
 
-  await sendRequest.then((value) => {
+  return await sendRequest.then((value) => {
     if (callback) {
       callback(value);
     }
+
+    return value;
   });
 };
 

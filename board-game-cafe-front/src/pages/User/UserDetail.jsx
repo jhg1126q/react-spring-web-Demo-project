@@ -31,7 +31,7 @@ export async function loader({ params }) {
 
   const init_loader = async () => {
     let param = {};
-    param.apiAddress = "/user/" + params.userId + ".json";
+    param.apiAddress = "/user/" + params.userId;
     param.method = "get";
     param.callback = loaderCallback;
 

@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import Input from "../../components/UI/Input/Input";
 import Card from "../../components/Card/Card";
 import Button from "../../components/UI/Button/SimpleButton";
-import ServerManager from "../../utils/ServerManager";
 import Commonutil from "../../utils/CommonUtil";
 import { Link } from "react-router-dom";
+import useHttp from "../../hooks/use-http";
 
 const AddUser = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const { callApi } = useHttp();
 
   const onChangeUserName = (event) => {
     setUserName(event.target.value);
@@ -40,7 +42,7 @@ const AddUser = () => {
     return true;
   };
 
-  const onSubmitClickHandler = () => {
+  const onSubmitClickHandler = async () => {
     if (!validAddUserData()) {
       return;
     }
@@ -52,17 +54,21 @@ const AddUser = () => {
     };
 
     let param = {};
-    param.apiAddress = "/user.json";
+    param.apiAddress = "/user";
     param.requestData = data;
     param.method = "post";
     param.callback = onSubmitAfterHandler;
+    // 로딩창 제어변수
+    // param.isLoadingActive = false;
 
-    ServerManager.callApi(param);
+    // 유저 UI
+    // setIsLoading(true);
+    callApi(param);
   };
 
   const onSubmitAfterHandler = () => {
-    // 등록되었습니다 모달 창 뜨면 좋겠다
-    console.log("제출 완료");
+    // 등록되었습니다
+    // setIsLoading(false);
     setUserEmail("");
     setUserName("");
     setUserPassword("");
@@ -72,32 +78,43 @@ const AddUser = () => {
     <Card>
       <form>
         <ul>
+          {isLoading ? (
+            <p>등록중....</p>
+          ) : (
+            <>
+              <li>
+                <Input
+                  value={userName}
+                  onChange={onChangeUserName}
+                  placeholder="Name"
+                  type="text"
+                ></Input>
+              </li>
+              <li>
+                <Input
+                  value={userEmail}
+                  onChange={onChangeUserEmail}
+                  placeholder="Email"
+                  type="email"
+                ></Input>
+              </li>
+              <li>
+                <Input
+                  value={userPassword}
+                  onChange={onChangeUserPassword}
+                  placeholder="password"
+                  type="password"
+                ></Input>
+              </li>
+            </>
+          )}
+
           <li>
-            <Input
-              value={userName}
-              onChange={onChangeUserName}
-              placeholder="Name"
-              type="text"
-            ></Input>
-          </li>
-          <li>
-            <Input
-              value={userEmail}
-              onChange={onChangeUserEmail}
-              placeholder="Email"
-              type="email"
-            ></Input>
-          </li>
-          <li>
-            <Input
-              value={userPassword}
-              onChange={onChangeUserPassword}
-              placeholder="password"
-              type="password"
-            ></Input>
-          </li>
-          <li>
-            <Button onSubmit={onSubmitClickHandler} type="submit">
+            <Button
+              onSubmit={onSubmitClickHandler}
+              disabled={isLoading}
+              type="submit"
+            >
               등록
             </Button>
           </li>

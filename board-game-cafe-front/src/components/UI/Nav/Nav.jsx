@@ -60,6 +60,16 @@ const Nav = () => {
               task2
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }
+              to="/test"
+            >
+              test
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </header>

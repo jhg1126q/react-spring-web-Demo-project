@@ -3,8 +3,11 @@ import React, { useReducer, useState } from "react";
 /******************** 
 마스킹 컴포넌트 (1차)
 숫자 영어 는 마스킹 됩니다
+붙여넣기 이벤트 삭제시킴
 ::::: TODO :::::
 한글 마스킹 불가능, 
+붙여넣기 에서 한글이나 특수기호 섞여있을 시에 터짐
+
 *********************/
 
 const maskReducer = (state, action) => {
@@ -43,11 +46,15 @@ const InputMasking = (props) => {
   const [realResult, setRealResult] = useState("");
 
   const onChangeHandler = (event) => {};
+  const onPaste = (event) => {
+    event.preventDefault();
+  };
+  const onCopy = (event) => {
+    event.preventDefault();
+  };
 
   const onInputHandler = (event) => {
-    let test = ("" + (event.target.value ?? ""))
-      .replace(/\*/gi, "")
-      .replace(/[^a-z0-9]/gi, "");
+    let test = ("" + (event.target.value ?? "")).replace(/[^a-z0-9]/gi, "");
 
     dispatchInputValue({
       type: "MASK",
@@ -70,8 +77,11 @@ const InputMasking = (props) => {
 
   return (
     <input
+      type="text"
       value={maskResult}
       onChange={onChangeHandler}
+      onPaste={onPaste}
+      onCopy={onCopy}
       placeholder={props.placeholder}
       onInput={onInputHandler}
     />

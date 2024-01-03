@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Card from "../../components/Card/Card";
+import Button from "../../components/UI/Button/SimpleButton";
 import ServerManager from "../../utils/ServerManager";
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import useHttp from "../../hooks/use-http";
+import useModal from "../../hooks/use-modal";
+import classes from "./UserList.module.css";
 
 const UserList = () => {
   const [userList, setUserList] = useState([]);
+  const { callApi } = useHttp();
+  const { showAlert } = useModal();
 
   const events = useLoaderData();
   const navigate = useNavigate();
@@ -15,7 +21,7 @@ const UserList = () => {
     param.method = "get";
     param.callback = showUserList;
 
-    ServerManager.callApi(param);
+    callApi(param);
   };
 
   // 유저 리스트 출력하는 함수
@@ -39,13 +45,27 @@ const UserList = () => {
     setUserList([...result]);
   };
 
-  const callDeleteUser = (data) => {
+  const onClickDeleteUserHandler = (data) => {
     let inputData = { id: data.id };
 
     let param = {};
-    param.apiAddress = "/user/" + data.id + ".json";
+    param.apiAddress = "/user/" + data.id;
     param.method = "delete";
     param.requestData = inputData;
+    param.callback = callDeleteUserCallback;
+
+    ServerManager.callApi(param);
+  };
+
+  const callDeleteUserCallback = (data) => {
+    showAlert({ message: "삭제되었습니다.", callback: callUserList });
+  };
+
+  // 버튼 클릭
+  const onDeleteButtonClickHandler = (event) => {
+    let param = {};
+    param.apiAddress = "/user";
+    param.method = "delete";
     param.callback = callUserList;
 
     ServerManager.callApi(param);
@@ -66,8 +86,17 @@ const UserList = () => {
         {userList.length !== 0 ? (
           userList.map((data) => {
             return (
-              <li key={data.id} onClick={() => onClickUserList(data)}>
+              <li key={data.id}>
                 <p>{data.userName}</p>
+                <Button
+                  className={classes.button}
+                  onClick={() => onClickUserList(data)}
+                >
+                  상세보기
+                </Button>
+                <Button onClick={() => onClickDeleteUserHandler(data)}>
+                  삭제
+                </Button>
               </li>
             );
           })
@@ -76,6 +105,9 @@ const UserList = () => {
         )}
         <li>
           <Link to="/addUser">유저 등록으로 가기</Link>
+        </li>
+        <li>
+          <Button onClick={onDeleteButtonClickHandler}>전부 삭제</Button>
         </li>
       </ul>
     </Card>
@@ -96,10 +128,10 @@ export async function loader() {
 
   const init_loader = async () => {
     let param = {};
-    param.apiAddress = "/user.json";
+
+    param.apiAddress = "/user";
     param.method = "get";
     param.callback = loaderCallback;
-
     await ServerManager.callApi(param);
   };
 
